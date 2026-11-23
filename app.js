@@ -56,6 +56,8 @@
     const dThorW = Math.max(6, (decode.thorNum / dMax) * 100);
     const dMacW  = Math.max(4, (decode.macNum  / dMax) * 100);
 
+    const macName = m.macTarget || 'M4 Max';
+
     return `
       <article class="card" data-id="${m.id}">
         <div class="card-top">
@@ -85,7 +87,7 @@
                 <span class="gk-val num">${prefill.thor}</span>
               </div>
               <div class="gk-line">
-                <span class="gk-tag mac">Mac Studio</span>
+                <span class="gk-tag mac">${macName}</span>
                 <div class="gk-track"><div class="gk-fill-mac" style="width:${pMacW.toFixed(1)}%"></div></div>
                 <span class="gk-val mac num">${prefill.mac}</span>
               </div>
@@ -105,7 +107,7 @@
                 <span class="gk-val num">${ttft.thor}</span>
               </div>
               <div class="gk-line">
-                <span class="gk-tag mac">Mac Studio</span>
+                <span class="gk-tag mac">${macName}</span>
                 <div class="gk-track"><div class="gk-fill-mac slow" style="width:${tMacW.toFixed(1)}%"></div></div>
                 <span class="gk-val mac num">${ttft.mac}</span>
               </div>
@@ -125,7 +127,7 @@
                 <span class="gk-val num">${decode.thor}</span>
               </div>
               <div class="gk-line">
-                <span class="gk-tag mac">Mac Studio</span>
+                <span class="gk-tag mac">${macName}</span>
                 <div class="gk-track"><div class="gk-fill-mac" style="width:${dMacW.toFixed(1)}%"></div></div>
                 <span class="gk-val mac num">${decode.mac}</span>
               </div>
@@ -135,7 +137,7 @@
 
         <div class="card-foot num">
           <span>VRAM ${m.vram} · DISK ${m.disk}</span>
-          <span>RAW DATA →</span>
+          <span>VS ${macName} · RAW →</span>
         </div>
       </article>
     `;
@@ -320,55 +322,56 @@
   // ==================== 界面 3：极客湾胜负硬件规格表 ====================
   const SPEC_BOARD_DATA = [
     {
-      k: 'Prefill 预填充实测',
-      thor: '1,500 – 12,463 TPS（读代码库秒级）',
-      mac: '200 – 600 TPS（长文等待极慢）',
-      bar: [100, 8],
-      verdict: 'Thor 碾压 30×',
+      k: '32K 长文 Prefill',
+      thor: '单机 4,572 / 四机 12,463 TPS（2.6 秒读完代码库）',
+      mac: 'M4 Max ~500 / M5 Ultra ~1,600 TPS',
+      bar: [100, 13],
+      verdict: 'Thor 领先 7.8×',
       vClass: 'crush'
     },
     {
-      k: 'AI 矩阵算力',
-      thor: '2,070 TFLOPS (FP4) · 最高四机 8,280',
-      mac: '无硬件级 FP4 / FP8 Tensor Core',
-      bar: [100, 14],
-      verdict: 'Thor 绝对领先',
+      k: '多并发吞吐（团队）',
+      thor: '8 并发 725 TPS · 16 并发代码 371.7 TPS（vLLM 批处理）',
+      mac: 'MLX / llama.cpp 以单流为主，高并发排队掉速',
+      bar: [100, 22],
+      verdict: 'Thor 压倒性胜出',
       vClass: 'crush'
     },
     {
-      k: 'GPU 架构与生态',
-      thor: 'NVIDIA Blackwell · 2,560 CUDA + 原生 vLLM/TRT',
-      mac: 'Apple Metal / MLX（视频/语音前沿模型缺适配）',
+      k: 'AI 矩阵算力核心',
+      thor: '2,070 TFLOPS (FP4) · 四机高达 8,280 TFLOPS',
+      mac: 'M4 Max 无硬件 FP4 / M5 Ultra 80 核 GPU Neural Accelerator',
+      bar: [100, 32],
+      verdict: 'FP4 Tensor Core',
+      vClass: 'crush'
+    },
+    {
+      k: '全栈多模态生态',
+      thor: '原生 CUDA · 视频/2K生图/全双工语音/OCR 58 款开箱即用',
+      mac: 'Metal / MLX（文本 LLM 强，前沿视频与语音生态缺适配）',
       verdict: '原生 CUDA 完胜',
       vClass: 'crush'
     },
     {
-      k: '集群线性扩展',
-      thor: '单机 → Thor×2 → Thor×4（TP4 张量并行）',
-      mac: '单机为主，多机并行生态弱',
-      verdict: 'Thor 线性扩展',
+      k: '集群弹性扩展',
+      thor: '单机 128G → 双机 256G → 四机 512G（TP4 张量并行）',
+      mac: '单机封顶（M4 Max 128G / M5 Ultra 512G 一次买断极贵）',
+      verdict: 'Thor 弹性扩展',
       vClass: 'win'
     },
     {
       k: '整机满载功耗',
-      thor: '单机 40W – 130W（静音桌面 / 机架）',
-      mac: '约 100W – 270W',
+      thor: '单机 40W – 130W（静音桌面 / 机架友好）',
+      mac: 'M4 Max ~140W / M5 Ultra ~270W',
       bar: [48, 100],
       verdict: 'Thor 更低功耗',
       vClass: 'win'
     },
     {
-      k: '统一显存容量',
-      thor: '单机 128G / 双机 256G / 四机 512G LPDDR5X',
-      mac: '64G – 512G 统一内存',
-      verdict: '同级持平',
-      vClass: 'tie'
-    },
-    {
-      k: 'CPU 核心',
-      thor: '14 核 Arm Neoverse-V3AE',
-      mac: '16 – 32 核 Apple CPU',
-      verdict: '各有侧重',
+      k: '单机内存带宽',
+      thor: '单机 273 GB/s（多机聚合 1.09 TB/s）',
+      mac: 'M4 Max 546 GB/s / M5 Ultra 1.2 TB/s',
+      verdict: 'M5 Ultra 带宽强',
       vClass: 'tie'
     }
   ];
