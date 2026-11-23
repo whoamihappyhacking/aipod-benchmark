@@ -1,19 +1,22 @@
-/* 懒猫微服 AI 算力舱 · Apple Pro Dark × 极客湾评测级视觉 */
+/* 懒猫微服 AI 算力舱 · Apple Pro 单主色极简体系（黑 / 白 / 钛灰 / Pro 蓝） */
 :root {
   --bg: #000000;
-  --surface: #0b0b0e;
-  --surface-2: #121216;
-  --surface-3: #18181e;
+  --surface: #0a0a0c;
+  --surface-2: #111114;
+  --surface-3: #18181c;
   --ink: #f5f5f7;
   --ink-2: #a1a1aa;
-  --ink-3: #63636e;
+  --ink-3: #6e6e73;
   --line: rgba(255, 255, 255, 0.09);
   --line-strong: rgba(255, 255, 255, 0.18);
   --blue: #2997ff;
-  --cyan: #00d4ff;
-  --green: #00e5a3;
-  --red: #ff453a;
-  --amber: #ff9f0a;
+  --blue-deep: #0a84ff;
+  --blue-soft: rgba(41, 151, 255, 0.14);
+  --blue-border: rgba(41, 151, 255, 0.38);
+  --m5u-top: #8e8e93;
+  --m5u-bot: #636366;
+  --m4m-top: #3a3a40;
+  --m4m-bot: #26262b;
   --radius: 4px;
   --radius-sm: 2px;
 }
@@ -28,7 +31,7 @@ body {
   color: var(--ink);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  background-image: radial-gradient(ellipse 80% 40% at 50% -10%, rgba(41, 151, 255, 0.14), transparent 70%);
+  background-image: radial-gradient(ellipse 80% 38% at 50% -10%, rgba(41, 151, 255, 0.13), transparent 70%);
   background-attachment: fixed;
 }
 
@@ -36,6 +39,26 @@ body {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
   font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+
+/* 精致数字与单位样式 */
+.u {
+  font-size: 0.72em;
+  font-weight: 500;
+  color: var(--ink-2);
+  margin-left: 2px;
+  letter-spacing: 0.01em;
+}
+
+.hl-num {
+  font-family: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, monospace;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(41, 151, 255, 0.14);
+  border: 1px solid rgba(41, 151, 255, 0.28);
+  padding: 1px 5px;
+  border-radius: 2px;
+  margin: 0 1px;
 }
 
 .wrap {
@@ -49,7 +72,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(0, 0, 0, 0.78);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--line);
@@ -88,9 +111,9 @@ body {
 .brand small {
   font-family: "SF Mono", ui-monospace, monospace;
   font-weight: 600;
-  color: var(--cyan);
-  border: 1px solid rgba(0, 212, 255, 0.35);
-  background: rgba(0, 212, 255, 0.08);
+  color: var(--blue);
+  border: 1px solid var(--blue-border);
+  background: var(--blue-soft);
   padding: 2px 7px;
   border-radius: var(--radius-sm);
   font-size: 11px;
@@ -120,18 +143,15 @@ body {
 
 .main-tab:last-child { border-right: none; }
 .main-tab:hover { color: var(--ink); background: rgba(255, 255, 255, 0.04); }
-.main-tab.active {
-  background: var(--ink);
-  color: #000;
-}
+.main-tab.active { background: var(--ink); color: #000; }
 
 /* ==================== 页面主容器 ==================== */
 .page { display: none; padding: 48px 0 80px; }
 .page.active { display: block; }
 
 .page-head {
-  margin-bottom: 32px;
-  padding-bottom: 24px;
+  margin-bottom: 28px;
+  padding-bottom: 22px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -158,12 +178,39 @@ body {
   color: var(--ink-2);
   font-size: 15px;
   margin-top: 10px;
-  max-width: 720px;
+  max-width: 740px;
 }
 
 .page-head p b { color: var(--ink); font-weight: 600; }
 
-/* ==================== 筛选条（硬朗直线） ==================== */
+/* 统一图例条（全站一致身份色） */
+.legend-bar {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 1px;
+}
+
+.legend-swatch.thor { background: var(--blue); }
+.legend-swatch.m5u  { background: var(--m5u-top); }
+.legend-swatch.m4m  { background: var(--m4m-top); border: 1px solid rgba(255,255,255,0.18); }
+
+/* ==================== 筛选条 ==================== */
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
@@ -173,11 +220,7 @@ body {
   margin-bottom: 24px;
 }
 
-.pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
 
 .pill {
   border: 1px solid var(--line);
@@ -194,7 +237,7 @@ body {
 .pill span { opacity: 0.55; margin-left: 5px; font-size: 11px; }
 .pill:hover { border-color: var(--line-strong); color: var(--ink); }
 .pill.active {
-  background: rgba(41, 151, 255, 0.14);
+  background: var(--blue-soft);
   border-color: var(--blue);
   color: #fff;
 }
@@ -213,7 +256,7 @@ body {
 .search-input::placeholder { color: var(--ink-3); }
 .search-input:focus { border-color: var(--blue); }
 
-/* ==================== 极客湾评测级卡片 ==================== */
+/* ==================== 卡片容器 ==================== */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -238,7 +281,7 @@ body {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
 }
 
 .card:hover {
@@ -260,11 +303,7 @@ body {
   color: var(--ink);
 }
 
-.card-sub {
-  font-size: 12.5px;
-  color: var(--ink-2);
-  margin-top: 3px;
-}
+.card-sub { font-size: 12.5px; color: var(--ink-2); margin-top: 3px; }
 
 .badges { display: flex; gap: 6px; flex-shrink: 0; }
 
@@ -278,21 +317,37 @@ body {
   white-space: nowrap;
 }
 
-.badge.thor  { background: rgba(41, 151, 255, 0.14); color: var(--blue); border: 1px solid rgba(41, 151, 255, 0.35); }
-.badge.thor2 { background: rgba(0, 212, 255, 0.14); color: var(--cyan); border: 1px solid rgba(0, 212, 255, 0.35); }
-.badge.thor4 { background: rgba(0, 229, 163, 0.14); color: var(--green); border: 1px solid rgba(0, 229, 163, 0.38); }
-.badge.ctx   { background: rgba(255, 255, 255, 0.06); color: var(--ink-2); border: 1px solid var(--line); }
+.badge.thor,
+.badge.thor2,
+.badge.thor4 {
+  background: var(--blue-soft);
+  color: var(--blue);
+  border: 1px solid var(--blue-border);
+}
+
+.badge.thor4 {
+  background: var(--blue);
+  color: #000;
+  border-color: var(--blue);
+}
+
+.badge.ctx {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink-2);
+  border: 1px solid var(--line);
+}
 
 .quant-pill {
-  background: rgba(255, 255, 255, 0.03);
-  border-left: 2px solid var(--cyan);
+  background: rgba(255, 255, 255, 0.025);
+  border-left: 2px solid var(--blue);
   padding: 8px 12px;
   font-size: 13px;
   font-weight: 500;
-  color: var(--ink);
+  color: var(--ink-2);
+  line-height: 1.6;
 }
 
-/* ==================== 极客湾风 3 柱竖向柱形图（Thor / M5 Ultra / M4 Max） ==================== */
+/* ==================== 统一 Pro 蓝 + 双灰三柱竖向柱形图 ==================== */
 .col-charts-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -309,8 +364,8 @@ body {
 }
 
 .col-panel.prefill-focus {
-  background: rgba(41, 151, 255, 0.06);
-  border-color: rgba(41, 151, 255, 0.36);
+  background: rgba(41, 151, 255, 0.055);
+  border-color: rgba(41, 151, 255, 0.34);
 }
 
 .col-panel-head {
@@ -330,10 +385,7 @@ body {
 
 .col-panel.prefill-focus .col-panel-title { color: #fff; }
 
-.col-panel-dir {
-  font-size: 10px;
-  color: var(--ink-3);
-}
+.col-panel-dir { font-size: 10px; color: var(--ink-3); }
 
 .col-stage {
   height: 112px;
@@ -341,7 +393,7 @@ body {
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   align-items: end;
-  padding-top: 20px;
+  padding-top: 22px;
   border-bottom: 1px solid var(--line-strong);
 }
 
@@ -351,21 +403,27 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
 .col-val {
-  font-size: 10.5px;
+  font-size: 11.5px;
   font-weight: 700;
-  color: #fff;
+  color: #ffffff;
   white-space: nowrap;
   line-height: 1;
 }
 
 .col-val.muted {
+  color: var(--ink-2);
+  font-weight: 500;
+  font-size: 10.5px;
+}
+
+.col-val.dim {
   color: var(--ink-3);
   font-weight: 500;
-  font-size: 10px;
+  font-size: 10.5px;
 }
 
 .col-bar {
@@ -376,26 +434,20 @@ body {
   transition: height 0.4s ease;
 }
 
+/* 全站统一身份色：Thor = Pro 蓝，M5 Ultra = 亮钛灰，M4 Max = 暗石墨灰 */
 .col-bar.thor {
-  background: linear-gradient(180deg, #00d4ff 0%, #2997ff 100%);
-  box-shadow: 0 0 12px rgba(41, 151, 255, 0.4);
-}
-
-.col-bar.thor-fast {
-  background: linear-gradient(180deg, #00e5a3 0%, #00b884 100%);
-  box-shadow: 0 0 10px rgba(0, 229, 163, 0.4);
+  background: linear-gradient(180deg, var(--blue) 0%, var(--blue-deep) 100%);
+  box-shadow: 0 0 12px rgba(41, 151, 255, 0.32);
 }
 
 .col-bar.m5u {
-  background: linear-gradient(180deg, #7c8594 0%, #525965 100%);
+  background: linear-gradient(180deg, var(--m5u-top) 0%, var(--m5u-bot) 100%);
 }
 
 .col-bar.m4m {
-  background: #32323a;
-}
-
-.col-bar.m4m-slow {
-  background: linear-gradient(180deg, #ff453a 0%, #8a1f1a 100%);
+  background: linear-gradient(180deg, var(--m4m-top) 0%, var(--m4m-bot) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: none;
 }
 
 .col-labels {
@@ -414,10 +466,7 @@ body {
   text-overflow: ellipsis;
 }
 
-.col-lbl.thor {
-  color: var(--cyan);
-  font-weight: 700;
-}
+.col-lbl.thor { color: var(--blue); font-weight: 700; }
 
 .col-sub {
   margin-top: 8px;
@@ -434,81 +483,17 @@ body {
   font-family: "SF Mono", ui-monospace, monospace;
   font-size: 10.5px;
   font-weight: 700;
-  color: #000;
-  background: var(--green);
+  color: var(--blue);
+  background: var(--blue-soft);
+  border: 1px solid rgba(41, 151, 255, 0.3);
   padding: 1px 6px;
   border-radius: 2px;
 }
 
 .col-panel.prefill-focus .col-ratio-tag {
-  background: linear-gradient(90deg, var(--blue), var(--cyan));
-}
-
-/* 速度量化页竖向柱形图 */
-.vchart-wrap {
-  height: 220px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 18px;
-  align-items: end;
-  padding: 26px 8px 0;
-  border-bottom: 1px solid var(--line-strong);
-}
-
-.vchart-col {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px;
-}
-
-.vchart-val {
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--green);
-}
-
-.vchart-val.mac { color: var(--red); }
-
-.vchart-bar {
-  width: 100%;
-  max-width: 64px;
-  min-height: 6px;
-  border-radius: 2px 2px 0 0;
-  background: linear-gradient(180deg, #00e5a3 0%, #00a878 100%);
-  box-shadow: 0 0 18px rgba(0, 229, 163, 0.3);
-}
-
-.vchart-bar.mac {
-  background: linear-gradient(180deg, #ff453a 0%, #7f1d1d 100%);
-  box-shadow: none;
-}
-
-.vchart-bar.m5u {
-  background: linear-gradient(180deg, #94a3b8 0%, #475569 100%);
-  box-shadow: none;
-}
-
-.vchart-labels {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 18px;
-  padding: 12px 8px 0;
-  text-align: center;
-}
-
-.vchart-name {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.vchart-meta {
-  font-size: 11px;
-  color: var(--ink-3);
-  margin-top: 3px;
+  background: var(--blue);
+  color: #000;
+  border-color: var(--blue);
 }
 
 /* 非 LLM 卡片 3 项硬核指标 */
@@ -527,18 +512,18 @@ body {
 }
 
 .tri-val {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--ink);
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
-.tri-box:first-child .tri-val { color: var(--cyan); }
+.tri-box:first-child .tri-val { color: var(--blue); }
 
 .tri-lbl {
   font-size: 11px;
   color: var(--ink-3);
-  margin-top: 5px;
+  margin-top: 6px;
   letter-spacing: 0.02em;
 }
 
@@ -551,6 +536,7 @@ body {
   border-top: 1px solid var(--line);
 }
 
+/* 来源条 */
 .footnote {
   margin-top: 28px;
   padding: 14px 18px;
@@ -573,24 +559,18 @@ body {
   gap: 8px 14px;
 }
 
-.source-group b {
-  color: var(--ink-2);
-  font-weight: 600;
-}
+.source-group b { color: var(--ink-2); font-weight: 600; }
 
 .source-link {
   color: var(--blue);
   text-decoration: none;
   border-bottom: 1px solid rgba(41, 151, 255, 0.35);
-  transition: color 0.15s, border-color 0.15s;
+  transition: opacity 0.15s;
 }
 
-.source-link:hover {
-  color: var(--cyan);
-  border-color: var(--cyan);
-}
+.source-link:hover { opacity: 0.8; }
 
-/* ==================== 页面 2：产能与速度量化（极客湾柱状图风） ==================== */
+/* ==================== 页面 2：速度量化（统一 Pro 蓝 + 双灰柱形图） ==================== */
 .quant-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -616,40 +596,68 @@ body {
 }
 
 .q-head h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
-.q-head span { font-family: "SF Mono", ui-monospace, monospace; font-size: 11.5px; color: var(--cyan); }
+.q-head span { font-family: "SF Mono", ui-monospace, monospace; font-size: 11.5px; color: var(--blue); }
 
-.repo-bars { display: flex; flex-direction: column; gap: 14px; }
-
-.repo-row {
+.vchart-wrap {
+  height: 220px;
   display: grid;
-  grid-template-columns: 270px 1fr 120px;
-  align-items: center;
-  gap: 16px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  align-items: end;
+  padding: 28px 8px 0;
+  border-bottom: 1px solid var(--line-strong);
 }
 
-.repo-name { font-size: 14px; font-weight: 600; color: var(--ink); }
-.repo-meta { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; }
-
-.repo-track {
-  height: 18px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 1px;
-  overflow: hidden;
-}
-
-.repo-fill {
+.vchart-col {
   height: 100%;
-  background: linear-gradient(90deg, #00c896 0%, #00e5a3 100%);
-  box-shadow: 0 0 14px rgba(0, 229, 163, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
 }
 
-.repo-fill.mac {
-  background: linear-gradient(90deg, #7f1d1d 0%, #ff453a 100%);
+.vchart-val {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--blue);
+  line-height: 1;
+}
+
+.vchart-val.m5u { color: var(--ink-2); }
+.vchart-val.m4m { color: var(--ink-3); }
+
+.vchart-bar {
+  width: 100%;
+  max-width: 64px;
+  min-height: 6px;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, var(--blue) 0%, var(--blue-deep) 100%);
+  box-shadow: 0 0 18px rgba(41, 151, 255, 0.28);
+}
+
+.vchart-bar.m5u {
+  background: linear-gradient(180deg, var(--m5u-top) 0%, var(--m5u-bot) 100%);
   box-shadow: none;
 }
 
-.repo-sec { text-align: right; font-size: 16px; font-weight: 700; color: var(--green); }
-.repo-sec.mac { color: var(--red); }
+.vchart-bar.m4m {
+  background: linear-gradient(180deg, var(--m4m-top) 0%, var(--m4m-bot) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: none;
+  box-shadow: none;
+}
+
+.vchart-labels {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  padding: 12px 8px 0;
+  text-align: center;
+}
+
+.vchart-name { font-size: 12.5px; font-weight: 700; color: var(--ink); }
+.vchart-meta { font-size: 11px; color: var(--ink-3); margin-top: 3px; }
 
 .q-rows { display: flex; flex-direction: column; gap: 10px; }
 
@@ -667,10 +675,10 @@ body {
 .q-row-title { font-size: 14px; font-weight: 600; color: var(--ink); }
 .q-row-sub { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
 .q-row-num { text-align: right; }
-.q-row-big { font-size: 18px; font-weight: 700; color: var(--cyan); }
-.q-row-small { font-size: 11.5px; color: var(--ink-2); }
+.q-row-big { font-size: 20px; font-weight: 700; color: var(--blue); line-height: 1.15; }
+.q-row-small { font-size: 12px; color: var(--ink-2); margin-top: 3px; }
 
-/* ==================== 页面 3：极客湾风硬件规格表（一眼分胜负） ==================== */
+/* ==================== 页面 3：硬件规格（统一 Pro 蓝 + 钛灰） ==================== */
 .hw-tiers {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -701,15 +709,10 @@ body {
   border: 1px solid var(--line);
 }
 
-.hw-big-grid > div {
-  background: var(--surface);
-  padding: 12px;
-}
-
+.hw-big-grid > div { background: var(--surface); padding: 12px; }
 .hw-stat-val { font-size: 20px; font-weight: 700; color: #fff; }
 .hw-stat-lbl { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
 
-/* 极客湾胜负对照表 */
 .spec-board {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -719,7 +722,7 @@ body {
 
 .spec-board-head {
   display: grid;
-  grid-template-columns: 180px 1fr 1fr 130px;
+  grid-template-columns: 180px 1fr 1fr 140px;
   padding: 14px 20px;
   background: var(--surface-3);
   border-bottom: 1px solid var(--line-strong);
@@ -730,11 +733,11 @@ body {
   color: var(--ink-2);
 }
 
-.spec-board-head .win-col { color: var(--cyan); }
+.spec-board-head .win-col { color: var(--blue); }
 
 .spec-row {
   display: grid;
-  grid-template-columns: 180px 1fr 1fr 130px;
+  grid-template-columns: 180px 1fr 1fr 140px;
   align-items: center;
   padding: 16px 20px;
   border-bottom: 1px solid var(--line);
@@ -744,22 +747,9 @@ body {
 .spec-row:last-child { border-bottom: none; }
 .spec-row:hover { background: rgba(255, 255, 255, 0.02); }
 
-.spec-k {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink-2);
-}
-
-.spec-thor {
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff;
-}
-
-.spec-mac {
-  font-size: 13.5px;
-  color: var(--ink-3);
-}
+.spec-k { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.spec-thor { font-size: 14px; font-weight: 700; color: #fff; }
+.spec-mac { font-size: 13.5px; color: var(--ink-3); }
 
 .spec-bar-mini {
   margin-top: 6px;
@@ -770,16 +760,10 @@ body {
   max-width: 240px;
 }
 
-.spec-bar-mini .fill-thor {
-  height: 100%;
-  background: linear-gradient(90deg, var(--blue), var(--cyan));
-}
+.spec-bar-mini .fill-thor { height: 100%; background: var(--blue); }
+.spec-bar-mini .fill-mac  { height: 100%; background: var(--m5u-bot); }
 
-.spec-bar-mini .fill-mac {
-  height: 100%;
-  background: #3f3f46;
-}
-
+/* 统一克制判定徽章（纯 Pro 蓝阶 + 钛灰） */
 .verdict {
   justify-self: end;
   font-family: "SF Mono", ui-monospace, monospace;
@@ -791,19 +775,18 @@ body {
 }
 
 .verdict.crush {
-  background: rgba(0, 229, 163, 0.14);
-  color: var(--green);
-  border: 1px solid rgba(0, 229, 163, 0.4);
+  background: var(--blue);
+  color: #000;
 }
 
 .verdict.win {
-  background: rgba(41, 151, 255, 0.14);
+  background: var(--blue-soft);
   color: var(--blue);
-  border: 1px solid rgba(41, 151, 255, 0.4);
+  border: 1px solid var(--blue-border);
 }
 
 .verdict.tie {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--ink-2);
   border: 1px solid var(--line);
 }
@@ -855,7 +838,7 @@ body {
   .col-charts-3 { grid-template-columns: 1fr; }
   .q-card.wide { grid-column: span 1; }
   .vchart-wrap, .vchart-labels { gap: 8px; }
-  .vchart-val { font-size: 13px; }
+  .vchart-val { font-size: 14px; }
   .vchart-name { font-size: 11px; }
   .spec-board-head { display: none; }
   .spec-row { grid-template-columns: 1fr; gap: 8px; }

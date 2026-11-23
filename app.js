@@ -40,7 +40,23 @@
     });
   }
 
-  function renderColPanel({ title, dir, data, hw, isFocus, isLowerBetter, subText }) {
+  // 格式化带单位的数值（将数字与 秒 / s / ms / TPS / 条 / 张 / 分钟 / × 拆分排版）
+  function fmtMetric(str) {
+    return String(str).replace(
+      /(~?<?[\d,.]+)\s*(秒\/条|秒\/张|条\/天|张\/天|条\/秒|张\/分|张\/秒|条\/s|张\/s|页\/s|次\/s|分钟|小时|ms|TPS|秒|条|张|s|×)/g,
+      '$1<span class="u">$2</span>'
+    );
+  }
+
+  // 高亮短句中的关键数字（秒数、TPS、产能等）
+  function hlText(str) {
+    return String(str).replace(
+      /(~?[\d,.]+(?:–[\d,.]+)?\s*(?:秒|分钟|小时|ms|TPS|条|张|s|×|K|M))/g,
+      '<span class="hl-num">$1</span>'
+    );
+  }
+
+  function renderColPanel({ title, dir, data, hw, isFocus, subText }) {
     const maxV = Math.max(data.thorNum, data.m5uNum, data.m4mNum);
     const hThor = Math.max(6, (data.thorNum / maxV) * 100).toFixed(1);
     const hM5u  = Math.max(6, (data.m5uNum  / maxV) * 100).toFixed(1);
@@ -54,16 +70,16 @@
         </div>
         <div class="col-stage">
           <div class="col-item">
-            <span class="col-val num">${data.thor}</span>
-            <div class="col-bar ${isLowerBetter ? 'thor-fast' : 'thor'}" style="height:${hThor}%"></div>
+            <span class="col-val num">${fmtMetric(data.thor)}</span>
+            <div class="col-bar thor" style="height:${hThor}%"></div>
           </div>
           <div class="col-item">
-            <span class="col-val muted num">${data.m5u}</span>
+            <span class="col-val muted num">${fmtMetric(data.m5u)}</span>
             <div class="col-bar m5u" style="height:${hM5u}%"></div>
           </div>
           <div class="col-item">
-            <span class="col-val muted num">${data.m4m}</span>
-            <div class="col-bar ${isLowerBetter ? 'm4m-slow' : 'm4m'}" style="height:${hM4m}%"></div>
+            <span class="col-val dim num">${fmtMetric(data.m4m)}</span>
+            <div class="col-bar m4m" style="height:${hM4m}%"></div>
           </div>
         </div>
         <div class="col-labels">
@@ -94,17 +110,17 @@
           </div>
         </div>
 
-        <div class="quant-pill num">${m.quantLine}</div>
+        <div class="quant-pill">${hlText(m.quantLine)}</div>
 
         <div class="col-charts-3">
-          ${renderColPanel({ title: 'PREFILL 预填充', dir: '越高越好 ↑', data: prefill, hw: m.hw, isFocus: true, isLowerBetter: false })}
-          ${renderColPanel({ title: 'TTFT 首字延迟', dir: '越低越好 ↓', data: ttft, hw: m.hw, isFocus: false, isLowerBetter: true })}
-          ${renderColPanel({ title: 'DECODE 解码', dir: '越高越好 ↑', data: decode, hw: m.hw, isFocus: false, isLowerBetter: false, subText: decode.sub })}
+          ${renderColPanel({ title: 'PREFILL 预填充', dir: '越高越好 ↑', data: prefill, hw: m.hw, isFocus: true })}
+          ${renderColPanel({ title: 'TTFT 首字延迟', dir: '越低越好 ↓', data: ttft, hw: m.hw, isFocus: false })}
+          ${renderColPanel({ title: 'DECODE 解码', dir: '越高越好 ↑', data: decode, hw: m.hw, isFocus: false, subText: decode.sub })}
         </div>
 
         <div class="card-foot num">
           <span>VRAM ${m.vram} · DISK ${m.disk}</span>
-          <span>THOR vs M5 ULTRA vs M4 MAX · RAW →</span>
+          <span>RAW DATA →</span>
         </div>
       </article>
     `;
@@ -123,12 +139,12 @@
           </div>
         </div>
 
-        <div class="quant-pill num">${m.quantLine}</div>
+        <div class="quant-pill">${hlText(m.quantLine)}</div>
 
         <div class="tri-metrics">
           ${m.metrics3.map(x => `
             <div class="tri-box">
-              <div class="tri-val num">${x.val}</div>
+              <div class="tri-val num">${fmtMetric(x.val)}</div>
               <div class="tri-lbl">${x.label}</div>
             </div>
           `).join('')}
@@ -176,11 +192,11 @@
           ${QUANT_CODE_REPO.map(r => {
             const hPct = Math.max(5, (r.sec / maxSec) * 100).toFixed(1);
             const isM5u = r.name.includes('M5 Ultra');
-            const barCls = !r.isMac ? '' : isM5u ? 'm5u' : 'mac';
-            const valCls = !r.isMac ? '' : isM5u ? '' : 'mac';
+            const barCls = !r.isMac ? '' : isM5u ? 'm5u' : 'm4m';
+            const valCls = !r.isMac ? '' : isM5u ? 'm5u' : 'm4m';
             return `
               <div class="vchart-col">
-                <div class="vchart-val num ${valCls}" ${isM5u ? 'style="color:#cbd5e1"' : ''}>${r.sec}s</div>
+                <div class="vchart-val num ${valCls}">${r.sec}<span class="u">秒</span></div>
                 <div class="vchart-bar ${barCls}" style="height:${hPct}%"></div>
               </div>
             `;
@@ -204,19 +220,19 @@
         <div class="q-rows">
           <div class="q-row">
             <div><div class="q-row-title">Pika H3 Flex Turbo LoRA</div><div class="q-row-sub">5 秒 · 640×384</div></div>
-            <div class="q-row-num num"><div class="q-row-big">2,787 条/天</div><div class="q-row-small">31.0 秒/条</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('2,787 条/天')}</div><div class="q-row-small">${fmtMetric('31.0 秒/条')}</div></div>
           </div>
           <div class="q-row">
             <div><div class="q-row-title">MiniMax H3 Sol</div><div class="q-row-sub">5.125 秒 · 960×544</div></div>
-            <div class="q-row-num num"><div class="q-row-big">2,526 条/天</div><div class="q-row-small">34.2 秒/条</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('2,526 条/天')}</div><div class="q-row-small">${fmtMetric('34.2 秒/条')}</div></div>
           </div>
           <div class="q-row">
             <div><div class="q-row-title">MiniMax H3 Duo（Thor×2）</div><div class="q-row-sub">832×480 · 20 步完整</div></div>
-            <div class="q-row-num num"><div class="q-row-big">2,322 条/天</div><div class="q-row-small">37.2 秒/条</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('2,322 条/天')}</div><div class="q-row-small">${fmtMetric('37.2 秒/条')}</div></div>
           </div>
           <div class="q-row">
             <div><div class="q-row-title">Pika H3 Flex 高清</div><div class="q-row-sub">5 秒 · 1344×768</div></div>
-            <div class="q-row-num num"><div class="q-row-big">811 条/天</div><div class="q-row-small">106.5 秒/条</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('811 条/天')}</div><div class="q-row-small">${fmtMetric('106.5 秒/条')}</div></div>
           </div>
         </div>
       </div>
@@ -229,15 +245,15 @@
         <div class="q-rows">
           <div class="q-row">
             <div><div class="q-row-title">Qwen Image 2.1 Turbo</div><div class="q-row-sub">512×512 · 8 步 · 支持编辑</div></div>
-            <div class="q-row-num num"><div class="q-row-big">26,181 张/天</div><div class="q-row-small">3.3 秒/张</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('26,181 张/天')}</div><div class="q-row-small">${fmtMetric('3.3 秒/张')}</div></div>
           </div>
           <div class="q-row">
             <div><div class="q-row-title">Qwen Image 2.1 Heretic</div><div class="q-row-sub">512×512 · 20 步 · 18G 显存</div></div>
-            <div class="q-row-num num"><div class="q-row-big">15,157 张/天</div><div class="q-row-small">5.7 秒/张</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('15,157 张/天')}</div><div class="q-row-small">${fmtMetric('5.7 秒/张')}</div></div>
           </div>
           <div class="q-row">
             <div><div class="q-row-title">MiniMax-H3-Image（2K 旗舰）</div><div class="q-row-sub">2048×2048 · 6 步 · 参考图编辑</div></div>
-            <div class="q-row-num num"><div class="q-row-big">6,471 张/天</div><div class="q-row-small">13.35 秒/张</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('6,471 张/天')}</div><div class="q-row-small">${fmtMetric('13.35 秒/张')}</div></div>
           </div>
         </div>
       </div>
@@ -250,19 +266,19 @@
         <div class="q-rows">
           <div class="q-row">
             <div><div class="q-row-title">Whisper Large V3 Turbo（识别）</div><div class="q-row-sub">100 种语言 · 4 并发 148× 实时</div></div>
-            <div class="q-row-num num"><div class="q-row-big">12.1 秒</div><div class="q-row-small">30 分钟音频</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('12.1 秒')}</div><div class="q-row-small">30 分钟音频</div></div>
           </div>
           <div class="q-row">
             <div><div class="q-row-title">SenseVoiceSmall（中文识别）</div><div class="q-row-sub">仅 1G 显存 · 109× 实时</div></div>
-            <div class="q-row-num num"><div class="q-row-big">16.5 秒</div><div class="q-row-small">30 分钟中文</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('16.5 秒')}</div><div class="q-row-small">30 分钟中文</div></div>
           </div>
           <div class="q-row">
             <div><div class="q-row-title">Nemotron 3 Diarization（多人分离）</div><div class="q-row-sub">最多 8 人 · 1h 仅 39.75s</div></div>
-            <div class="q-row-num num"><div class="q-row-big">19.9 秒</div><div class="q-row-small">30 分钟会议</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('19.9 秒')}</div><div class="q-row-small">30 分钟会议</div></div>
           </div>
           <div class="q-row">
             <div><div class="q-row-title">Hy-SimulMT（英译中语音直译）</div><div class="q-row-sub">支持中英实时语音流</div></div>
-            <div class="q-row-num num"><div class="q-row-big">8.7 分钟</div><div class="q-row-small">30 分钟直译</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('8.7 分钟')}</div><div class="q-row-small">30 分钟直译</div></div>
           </div>
         </div>
       </div>
@@ -275,19 +291,19 @@
         <div class="q-rows">
           <div class="q-row">
             <div><div class="q-row-title">PP-OCRv6 Tiny（票证识别）</div><div class="q-row-sub">896×528 登机牌 · 仅 29M 磁盘</div></div>
-            <div class="q-row-num num"><div class="q-row-big">4,086 张/分</div><div class="q-row-small">68.1 张/秒</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('4,086 张/分')}</div><div class="q-row-small">${fmtMetric('68.1 张/秒')}</div></div>
           </div>
           <div class="q-row">
             <div><div class="q-row-title">Unlimited-OCR-2（长文档 PDF）</div><div class="q-row-sub">支持百页连续高精度识别</div></div>
-            <div class="q-row-num num"><div class="q-row-big">72 秒</div><div class="q-row-small">100 页中文 PDF</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('72 秒')}</div><div class="q-row-small">100 页中文 PDF</div></div>
           </div>
           <div class="q-row">
             <div><div class="q-row-title">Kokoro-82M（语音合成）</div><div class="q-row-sub">157 种音色 · 中文短句 101ms</div></div>
-            <div class="q-row-num num"><div class="q-row-big">15.45 条/秒</div><div class="q-row-small">4 并发吞吐</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('15.45 条/秒')}</div><div class="q-row-small">4 并发吞吐</div></div>
           </div>
           <div class="q-row">
             <div><div class="q-row-title">Sophon-Realtime 4B（全双工）</div><div class="q-row-sub">首字 110ms · 首音 640ms</div></div>
-            <div class="q-row-num num"><div class="q-row-big">2.49× 双路</div><div class="q-row-small">RTF 0.56</div></div>
+            <div class="q-row-num num"><div class="q-row-big">${fmtMetric('2.49×')} <span class="u">双路</span></div><div class="q-row-small">RTF 0.56</div></div>
           </div>
         </div>
       </div>
@@ -360,9 +376,9 @@
         </div>
         <div class="hw-big-grid num">
           <div><div class="hw-stat-val">${t.vram}</div><div class="hw-stat-lbl">统一显存</div></div>
-          <div><div class="hw-stat-val" style="color:var(--cyan)">${t.tflops}</div><div class="hw-stat-lbl">FP4 AI 算力</div></div>
+          <div><div class="hw-stat-val" style="color:var(--blue)">${t.tflops}</div><div class="hw-stat-lbl">FP4 AI 算力</div></div>
         </div>
-        <div style="font-size:13px;font-weight:600;color:var(--green)">${t.models}</div>
+        <div style="font-size:13px;font-weight:600;color:var(--ink)">${t.models}</div>
         <div style="font-size:12.5px;color:var(--ink-2)">${t.bestFor}</div>
         <div style="font-size:11.5px;color:var(--ink-3);margin-top:auto" class="num">POWER · ${t.tdp}</div>
       </div>
@@ -394,7 +410,7 @@
         ${m.ctx ? `<span class="badge ctx num">${m.ctx} CONTEXT</span>` : ''}
       </div>
       <h3 style="font-size:20px;font-weight:700;margin-bottom:6px;padding-right:32px">${m.name}</h3>
-      <div style="font-size:13px;color:var(--cyan);font-weight:600;margin-bottom:16px" class="num">${m.quantLine}</div>
+      <div style="font-size:13px;color:var(--blue);font-weight:600;margin-bottom:16px">${hlText(m.quantLine)}</div>
       <div style="background:var(--surface);border:1px solid var(--line);border-radius:2px;padding:16px;font-size:13px;line-height:1.75;color:var(--ink-2)">
         <div class="num" style="margin-bottom:8px;color:#fff"><b>资源需求：</b>显存 ${m.vram} · 磁盘 ${m.disk}</div>
         <div class="num"><b>原始实测（懒猫微服实测）：</b>${m.raw}</div>
