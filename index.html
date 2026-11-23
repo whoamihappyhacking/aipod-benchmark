@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>懒猫微服 AI 算力舱 · AGX Thor 实测</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand">
+        <span class="brand-dot">L</span>
+        <span>懒猫微服 · AI 算力舱</span>
+        <small>AGX THOR</small>
+      </div>
+      <div class="main-tabs" id="mainTabs">
+        <button class="main-tab active" data-page="models">模型实测</button>
+        <button class="main-tab" data-page="quant">速度量化</button>
+        <button class="main-tab" data-page="hardware">硬件规格</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- ==================== 界面 1：模型实测（极客湾风卡片） ==================== -->
+    <section class="page active" id="page-models">
+      <div class="page-head">
+        <div class="kicker">BENCHMARK LAB · 58 MODELS VERIFIED</div>
+        <h1>AGX Thor 实测 · Prefill 最高领先 Mac Studio 32.8×</h1>
+        <p>每张大语言模型卡片只看 <b>Prefill 预填充</b>、<b>TTFT 首字延迟</b>、<b>Decode 解码</b> 三项核心数据，条形长度按真实比例直出差距。</p>
+      </div>
+
+      <div class="filter-bar">
+        <div class="pills" id="filterPills"></div>
+        <input class="search-input" id="searchInput" type="text" placeholder="搜索模型：Qwen / DeepSeek / 视频..." />
+      </div>
+
+      <div class="cards-grid" id="cardsGrid"></div>
+
+      <div class="footnote">
+        * Mac Studio 数据为同级参数模型在公开 MLX / llama.cpp（M4 Max / M3 Ultra）实测参考区间；点击任意卡片查看完整原始实测。
+      </div>
+    </section>
+
+    <!-- ==================== 界面 2：速度量化 ==================== -->
+    <section class="page" id="page-quant">
+      <div class="page-head">
+        <div class="kicker">QUANTIFIED THROUGHPUT · REAL-WORLD TASKS</div>
+        <h1>把算力换算成真实产能：耗时与 24h 日产出</h1>
+        <p>读 32K 代码库几秒、一天生成多少条视频和图片、处理 30 分钟语音要多久，一眼看懂。</p>
+      </div>
+
+      <div class="quant-grid" id="quantGrid"></div>
+    </section>
+
+    <!-- ==================== 界面 3：硬件规格（极客湾胜负对照表） ==================== -->
+    <section class="page" id="page-hardware">
+      <div class="page-head">
+        <div class="kicker">HARDWARE ARCHITECTURE · THOR VS MAC STUDIO</div>
+        <h1>为什么 AGX Thor 的 Prefill 能碾压 Mac Studio</h1>
+        <p>原生 NVIDIA Blackwell FP4 Tensor Core 矩阵算力，专为大模型长上下文预填充与高并发而生。</p>
+      </div>
+
+      <div class="hw-tiers" id="hwTiers"></div>
+
+      <div class="spec-board">
+        <div class="spec-board-head">
+          <div>核心维度</div>
+          <div class="win-col">懒猫微服 AI 算力舱（AGX Thor）</div>
+          <div>Apple Mac Studio（对照）</div>
+          <div style="text-align:right">实测判定</div>
+        </div>
+        <div id="hwSpecBody"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-bg" id="modalBg">
+    <div class="modal-card">
+      <button class="modal-x" id="modalClose">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
