@@ -325,12 +325,6 @@ body {
   border: 1px solid var(--blue-border);
 }
 
-.badge.thor4 {
-  background: var(--blue);
-  color: #000;
-  border-color: var(--blue);
-}
-
 .badge.ctx {
   background: rgba(255, 255, 255, 0.05);
   color: var(--ink-2);
@@ -485,17 +479,11 @@ body {
   font-family: "SF Mono", ui-monospace, monospace;
   font-size: 10.5px;
   font-weight: 700;
-  color: #ffb340;
-  background: rgba(255, 179, 64, 0.13);
-  border: 1px solid rgba(255, 179, 64, 0.38);
+  color: #000000;
+  background: #ffb340;
+  border: 1px solid #ffb340;
   padding: 1px 6px;
   border-radius: 2px;
-}
-
-.col-panel.prefill-focus .col-ratio-tag {
-  background: #ffb340;
-  color: #000000;
-  border-color: #ffb340;
 }
 
 /* 非 LLM 卡片 3 项硬核指标 */
