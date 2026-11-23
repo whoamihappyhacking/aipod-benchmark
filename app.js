@@ -48,10 +48,10 @@
     );
   }
 
-  // 高亮短句中的关键数字（秒数、TPS、产能等）
+  // 高亮短句中的关键数字（避免误匹配 M4 Max / M5 Ultra 中的 M4/M5）
   function hlText(str) {
     return String(str).replace(
-      /(~?[\d,.]+(?:–[\d,.]+)?\s*(?:秒|分钟|小时|ms|TPS|条|张|s|×|K|M))/g,
+      /(?<![A-Za-z\d])(~?[\d,.]+(?:–[\d,.]+)?(?:\s*(?:秒|分钟|小时|条|张|×)|(?:\s?(?:ms|TPS|s|K|M))(?![A-Za-z])))/g,
       '<span class="hl-num">$1</span>'
     );
   }

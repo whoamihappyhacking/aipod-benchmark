@@ -13,10 +13,10 @@
   --blue-deep: #0a84ff;
   --blue-soft: rgba(41, 151, 255, 0.14);
   --blue-border: rgba(41, 151, 255, 0.38);
-  --m5u-top: #8e8e93;
-  --m5u-bot: #636366;
-  --m4m-top: #3a3a40;
-  --m4m-bot: #26262b;
+  --m5u-top: #1f5696;
+  --m5u-bot: #153c6b;
+  --m4m-top: #132c4c;
+  --m4m-bot: #0c1d34;
   --radius: 4px;
   --radius-sm: 2px;
 }
@@ -207,8 +207,8 @@ body {
 }
 
 .legend-swatch.thor { background: var(--blue); }
-.legend-swatch.m5u  { background: var(--m5u-top); }
-.legend-swatch.m4m  { background: var(--m4m-top); border: 1px solid rgba(255,255,255,0.18); }
+.legend-swatch.m5u  { background: var(--m5u-top); border: 1px solid rgba(41, 151, 255, 0.35); }
+.legend-swatch.m4m  { background: var(--m4m-top); border: 1px solid rgba(41, 151, 255, 0.24); }
 
 /* ==================== 筛选条 ==================== */
 .filter-bar {
@@ -434,19 +434,21 @@ body {
   transition: height 0.4s ease;
 }
 
-/* 全站统一身份色：Thor = Pro 蓝，M5 Ultra = 亮钛灰，M4 Max = 暗石墨灰 */
+/* 同色系蓝色强弱梯度：Thor = 高亮 Pro 蓝，M5 Ultra = 中蓝，M4 Max = 暗夜藏蓝 */
 .col-bar.thor {
   background: linear-gradient(180deg, var(--blue) 0%, var(--blue-deep) 100%);
-  box-shadow: 0 0 12px rgba(41, 151, 255, 0.32);
+  box-shadow: 0 0 14px rgba(41, 151, 255, 0.38);
 }
 
 .col-bar.m5u {
   background: linear-gradient(180deg, var(--m5u-top) 0%, var(--m5u-bot) 100%);
+  border: 1px solid rgba(41, 151, 255, 0.28);
+  border-bottom: none;
 }
 
 .col-bar.m4m {
   background: linear-gradient(180deg, var(--m4m-top) 0%, var(--m4m-bot) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(41, 151, 255, 0.18);
   border-bottom: none;
 }
 
@@ -638,12 +640,14 @@ body {
 
 .vchart-bar.m5u {
   background: linear-gradient(180deg, var(--m5u-top) 0%, var(--m5u-bot) 100%);
+  border: 1px solid rgba(41, 151, 255, 0.28);
+  border-bottom: none;
   box-shadow: none;
 }
 
 .vchart-bar.m4m {
   background: linear-gradient(180deg, var(--m4m-top) 0%, var(--m4m-bot) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(41, 151, 255, 0.18);
   border-bottom: none;
   box-shadow: none;
 }
