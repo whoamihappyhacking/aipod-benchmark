@@ -419,8 +419,16 @@
       <div style="font-size:13px;color:var(--cyan);font-weight:600;margin-bottom:16px" class="num">${m.quantLine}</div>
       <div style="background:var(--surface);border:1px solid var(--line);border-radius:2px;padding:16px;font-size:13px;line-height:1.75;color:var(--ink-2)">
         <div class="num" style="margin-bottom:8px;color:#fff"><b>资源需求：</b>显存 ${m.vram} · 磁盘 ${m.disk}</div>
-        <div class="num"><b>原始实测：</b>${m.raw}</div>
+        <div class="num"><b>原始实测（懒猫微服实测）：</b>${m.raw}</div>
       </div>
+      ${m.llm ? `
+        <div style="margin-top:12px;font-size:12px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:6px 12px">
+          <span>Mac Studio 对照来源：</span>
+          <a class="source-link" href="https://github.com/ggml-org/llama.cpp/discussions/4167" target="_blank" rel="noopener noreferrer">llama.cpp #4167 ↗</a>
+          <a class="source-link" href="https://github.com/ml-explore/mlx-lm" target="_blank" rel="noopener noreferrer">Apple MLX-LM ↗</a>
+          <a class="source-link" href="https://www.apple.com/mac-studio/specs/" target="_blank" rel="noopener noreferrer">Apple 官方规格 ↗</a>
+        </div>
+      ` : ''}
     `;
     document.getElementById('modalBg').classList.add('open');
   }

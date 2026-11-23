@@ -39,7 +39,15 @@
       <div class="cards-grid" id="cardsGrid"></div>
 
       <div class="footnote">
-        * Mac Studio 数据为同级参数模型在公开 MLX / llama.cpp（M4 Max / M3 Ultra）实测参考区间；点击任意卡片查看完整原始实测。
+        <div class="source-group">
+          <span><b>AGX Thor 数据：</b>懒猫微服实测</span>
+        </div>
+        <div class="source-group">
+          <span><b>Mac Studio 参考来源：</b></span>
+          <a class="source-link" href="https://github.com/ggml-org/llama.cpp/discussions/4167" target="_blank" rel="noopener noreferrer">llama.cpp Apple Silicon 社区基准 #4167 ↗</a>
+          <a class="source-link" href="https://github.com/ml-explore/mlx-lm" target="_blank" rel="noopener noreferrer">Apple MLX-LM ↗</a>
+          <a class="source-link" href="https://www.apple.com/mac-studio/specs/" target="_blank" rel="noopener noreferrer">Apple Mac Studio 官方规格 ↗</a>
+        </div>
       </div>
     </section>
 
@@ -52,6 +60,17 @@
       </div>
 
       <div class="quant-grid" id="quantGrid"></div>
+
+      <div class="footnote">
+        <div class="source-group">
+          <span><b>AGX Thor 产能换算：</b>基于懒猫微服实测数据按 24h / 30 分钟线性换算</span>
+        </div>
+        <div class="source-group">
+          <span><b>Mac Studio Prefill 参考来源：</b></span>
+          <a class="source-link" href="https://github.com/ggml-org/llama.cpp/discussions/4167" target="_blank" rel="noopener noreferrer">llama.cpp Apple Silicon 基准 #4167 ↗</a>
+          <a class="source-link" href="https://github.com/ml-explore/mlx-lm" target="_blank" rel="noopener noreferrer">Apple MLX-LM ↗</a>
+        </div>
+      </div>
     </section>
 
     <!-- ==================== 界面 3：硬件规格（极客湾胜负对照表） ==================== -->
@@ -72,6 +91,18 @@
           <div style="text-align:right">实测判定</div>
         </div>
         <div id="hwSpecBody"></div>
+      </div>
+
+      <div class="footnote">
+        <div class="source-group">
+          <span><b>AGX Thor 实测：</b>懒猫微服实测</span>
+        </div>
+        <div class="source-group">
+          <span><b>Mac Studio 硬件与性能参考来源：</b></span>
+          <a class="source-link" href="https://www.apple.com/mac-studio/specs/" target="_blank" rel="noopener noreferrer">Apple Mac Studio 官方技术规格 ↗</a>
+          <a class="source-link" href="https://github.com/ggml-org/llama.cpp/discussions/4167" target="_blank" rel="noopener noreferrer">llama.cpp Apple Silicon 社区基准 #4167 ↗</a>
+          <a class="source-link" href="https://github.com/ml-explore/mlx-lm" target="_blank" rel="noopener noreferrer">Apple MLX-LM ↗</a>
+        </div>
       </div>
     </section>
   </main>
