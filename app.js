@@ -40,24 +40,47 @@
     });
   }
 
+  function renderColPanel({ title, dir, data, hw, isFocus, isLowerBetter, subText }) {
+    const maxV = Math.max(data.thorNum, data.m5uNum, data.m4mNum);
+    const hThor = Math.max(6, (data.thorNum / maxV) * 100).toFixed(1);
+    const hM5u  = Math.max(6, (data.m5uNum  / maxV) * 100).toFixed(1);
+    const hM4m  = Math.max(6, (data.m4mNum  / maxV) * 100).toFixed(1);
+
+    return `
+      <div class="col-panel ${isFocus ? 'prefill-focus' : ''}">
+        <div class="col-panel-head">
+          <span class="col-panel-title">${title}</span>
+          <span class="col-panel-dir">${dir}</span>
+        </div>
+        <div class="col-stage">
+          <div class="col-item">
+            <span class="col-val num">${data.thor}</span>
+            <div class="col-bar ${isLowerBetter ? 'thor-fast' : 'thor'}" style="height:${hThor}%"></div>
+          </div>
+          <div class="col-item">
+            <span class="col-val muted num">${data.m5u}</span>
+            <div class="col-bar m5u" style="height:${hM5u}%"></div>
+          </div>
+          <div class="col-item">
+            <span class="col-val muted num">${data.m4m}</span>
+            <div class="col-bar ${isLowerBetter ? 'm4m-slow' : 'm4m'}" style="height:${hM4m}%"></div>
+          </div>
+        </div>
+        <div class="col-labels">
+          <span class="col-lbl thor">${hw}</span>
+          <span class="col-lbl">M5 Ultra</span>
+          <span class="col-lbl">M4 Max</span>
+        </div>
+        <div class="col-sub">
+          <span>${subText || (data.unit ? `单位: ${data.unit}` : '三机同台对比')}</span>
+          <span class="col-ratio-tag">${data.ratio}</span>
+        </div>
+      </div>
+    `;
+  }
+
   function renderLlmCard(m) {
     const { prefill, ttft, decode } = m.llm;
-    // 严格按真实比例绘制长度，一眼看出断层差距
-    const pMax = Math.max(prefill.thorNum, prefill.macNum);
-    const tMax = Math.max(ttft.thorNum, ttft.macNum);
-    const dMax = Math.max(decode.thorNum, decode.macNum);
-
-    const pThorW = Math.max(4, (prefill.thorNum / pMax) * 100);
-    const pMacW  = Math.max(3, (prefill.macNum  / pMax) * 100);
-
-    const tThorW = Math.max(3, (ttft.thorNum / tMax) * 100);
-    const tMacW  = Math.max(6, (ttft.macNum  / tMax) * 100);
-
-    const dThorW = Math.max(6, (decode.thorNum / dMax) * 100);
-    const dMacW  = Math.max(4, (decode.macNum  / dMax) * 100);
-
-    const macName = m.macTarget || 'M4 Max';
-
     return `
       <article class="card" data-id="${m.id}">
         <div class="card-top">
@@ -73,71 +96,15 @@
 
         <div class="quant-pill num">${m.quantLine}</div>
 
-        <div class="cmp-list">
-          <!-- 1. Prefill（核心压倒性优势） -->
-          <div class="cmp-row prefill-focus">
-            <div class="cmp-head">
-              <span class="cmp-label">PREFILL 预填充 <span class="dir-hint">越高越好 ↑</span></span>
-              <span class="cmp-ratio">Thor ${prefill.ratio}</span>
-            </div>
-            <div class="gk-bars">
-              <div class="gk-line">
-                <span class="gk-tag">${m.hw}</span>
-                <div class="gk-track"><div class="gk-fill-thor" style="width:${pThorW.toFixed(1)}%"></div></div>
-                <span class="gk-val num">${prefill.thor}</span>
-              </div>
-              <div class="gk-line">
-                <span class="gk-tag mac">${macName}</span>
-                <div class="gk-track"><div class="gk-fill-mac" style="width:${pMacW.toFixed(1)}%"></div></div>
-                <span class="gk-val mac num">${prefill.mac}</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2. TTFT（越短越快，红条表示慢） -->
-          <div class="cmp-row">
-            <div class="cmp-head">
-              <span class="cmp-label">TTFT 首字延迟 <span class="dir-hint">越短越快 ↓</span></span>
-              <span class="cmp-ratio">${ttft.ratio}</span>
-            </div>
-            <div class="gk-bars">
-              <div class="gk-line">
-                <span class="gk-tag">${m.hw}</span>
-                <div class="gk-track"><div class="gk-fill-thor fast" style="width:${tThorW.toFixed(1)}%"></div></div>
-                <span class="gk-val num">${ttft.thor}</span>
-              </div>
-              <div class="gk-line">
-                <span class="gk-tag mac">${macName}</span>
-                <div class="gk-track"><div class="gk-fill-mac slow" style="width:${tMacW.toFixed(1)}%"></div></div>
-                <span class="gk-val mac num">${ttft.mac}</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- 3. Decode（越高越快） -->
-          <div class="cmp-row">
-            <div class="cmp-head">
-              <span class="cmp-label">DECODE 解码 <span class="dir-hint">${decode.sub} · 越高越好 ↑</span></span>
-              <span class="cmp-ratio">Thor ${decode.ratio}</span>
-            </div>
-            <div class="gk-bars">
-              <div class="gk-line">
-                <span class="gk-tag">${m.hw}</span>
-                <div class="gk-track"><div class="gk-fill-thor" style="width:${dThorW.toFixed(1)}%"></div></div>
-                <span class="gk-val num">${decode.thor}</span>
-              </div>
-              <div class="gk-line">
-                <span class="gk-tag mac">${macName}</span>
-                <div class="gk-track"><div class="gk-fill-mac" style="width:${dMacW.toFixed(1)}%"></div></div>
-                <span class="gk-val mac num">${decode.mac}</span>
-              </div>
-            </div>
-          </div>
+        <div class="col-charts-3">
+          ${renderColPanel({ title: 'PREFILL 预填充', dir: '越高越好 ↑', data: prefill, hw: m.hw, isFocus: true, isLowerBetter: false })}
+          ${renderColPanel({ title: 'TTFT 首字延迟', dir: '越低越好 ↓', data: ttft, hw: m.hw, isFocus: false, isLowerBetter: true })}
+          ${renderColPanel({ title: 'DECODE 解码', dir: '越高越好 ↑', data: decode, hw: m.hw, isFocus: false, isLowerBetter: false, subText: decode.sub })}
         </div>
 
         <div class="card-foot num">
           <span>VRAM ${m.vram} · DISK ${m.disk}</span>
-          <span>VS ${macName} · RAW →</span>
+          <span>THOR vs M5 ULTRA vs M4 MAX · RAW →</span>
         </div>
       </article>
     `;
@@ -202,20 +169,28 @@
     document.getElementById('quantGrid').innerHTML = `
       <div class="q-card wide">
         <div class="q-head">
-          <h2>01 / 写代码 · 读取 32K 代码仓库（约 2 万行代码）耗时</h2>
-          <span>LOWER IS BETTER ↓</span>
+          <h2>01 / 写代码 · 读取 32K 代码仓库（约 2 万行代码）耗时柱形图</h2>
+          <span>LOWER IS BETTER ↓ · 越矮越快</span>
         </div>
-        <div class="repo-bars">
+        <div class="vchart-wrap">
+          ${QUANT_CODE_REPO.map(r => {
+            const hPct = Math.max(5, (r.sec / maxSec) * 100).toFixed(1);
+            const isM5u = r.name.includes('M5 Ultra');
+            const barCls = !r.isMac ? '' : isM5u ? 'm5u' : 'mac';
+            const valCls = !r.isMac ? '' : isM5u ? '' : 'mac';
+            return `
+              <div class="vchart-col">
+                <div class="vchart-val num ${valCls}" ${isM5u ? 'style="color:#cbd5e1"' : ''}>${r.sec}s</div>
+                <div class="vchart-bar ${barCls}" style="height:${hPct}%"></div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        <div class="vchart-labels">
           ${QUANT_CODE_REPO.map(r => `
-            <div class="repo-row">
-              <div>
-                <div class="repo-name">${r.name}</div>
-                <div class="repo-meta num">Prefill ${r.prefill} · ${r.ctx}</div>
-              </div>
-              <div class="repo-track">
-                <div class="repo-fill ${r.isMac ? 'mac' : ''}" style="width:${Math.max(3, (r.sec / maxSec) * 100).toFixed(1)}%"></div>
-              </div>
-              <div class="repo-sec num ${r.isMac ? 'mac' : ''}">${r.sec} 秒</div>
+            <div>
+              <div class="vchart-name">${r.name}</div>
+              <div class="vchart-meta num">${r.prefill}</div>
             </div>
           `).join('')}
         </div>

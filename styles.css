@@ -292,124 +292,223 @@ body {
   color: var(--ink);
 }
 
-/* ==================== 极客湾风双条对比（一眼看穿差距） ==================== */
-.cmp-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.cmp-row {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-}
-
-.cmp-row.prefill-focus {
-  background: rgba(41, 151, 255, 0.06);
-  border-color: rgba(41, 151, 255, 0.32);
-}
-
-.cmp-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.cmp-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ink-2);
-  letter-spacing: 0.02em;
-}
-
-.cmp-row.prefill-focus .cmp-label { color: #fff; }
-
-.dir-hint {
-  font-size: 11px;
-  color: var(--ink-3);
-  margin-left: 6px;
-  font-weight: 400;
-}
-
-.cmp-ratio {
-  font-family: "SF Mono", ui-monospace, monospace;
-  font-size: 12px;
-  font-weight: 700;
-  color: #000;
-  background: var(--green);
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
-}
-
-.cmp-row.prefill-focus .cmp-ratio {
-  background: linear-gradient(90deg, var(--blue), var(--cyan));
-  color: #000;
-}
-
-.gk-bars {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-}
-
-.gk-line {
+/* ==================== 极客湾风 3 柱竖向柱形图（Thor / M5 Ultra / M4 Max） ==================== */
+.col-charts-3 {
   display: grid;
-  grid-template-columns: 74px 1fr 94px;
-  align-items: center;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
-.gk-tag {
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--ink);
-  white-space: nowrap;
+.col-panel {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 12px 10px 10px;
+  display: flex;
+  flex-direction: column;
 }
 
-.gk-tag.mac { color: var(--ink-3); font-weight: 500; }
-
-.gk-track {
-  height: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 1px;
-  overflow: hidden;
+.col-panel.prefill-focus {
+  background: rgba(41, 151, 255, 0.06);
+  border-color: rgba(41, 151, 255, 0.36);
 }
 
-.gk-fill-thor {
+.col-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.col-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-2);
+  letter-spacing: 0.03em;
+}
+
+.col-panel.prefill-focus .col-panel-title { color: #fff; }
+
+.col-panel-dir {
+  font-size: 10px;
+  color: var(--ink-3);
+}
+
+.col-stage {
+  height: 112px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  align-items: end;
+  padding-top: 20px;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.col-item {
   height: 100%;
-  background: linear-gradient(90deg, #2997ff 0%, #00d4ff 100%);
-  box-shadow: 0 0 12px rgba(41, 151, 255, 0.45);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
 }
 
-.gk-fill-thor.fast {
-  background: linear-gradient(90deg, #00c896 0%, #00e5a3 100%);
-  box-shadow: 0 0 12px rgba(0, 229, 163, 0.4);
-}
-
-.gk-fill-mac {
-  height: 100%;
-  background: #3a3a44;
-}
-
-.gk-fill-mac.slow {
-  background: linear-gradient(90deg, #523035 0%, #ff453a 100%);
-}
-
-.gk-val {
-  text-align: right;
-  font-size: 13px;
+.col-val {
+  font-size: 10.5px;
   font-weight: 700;
   color: #fff;
   white-space: nowrap;
+  line-height: 1;
 }
 
-.gk-val.mac {
+.col-val.muted {
   color: var(--ink-3);
   font-weight: 500;
-  font-size: 12px;
+  font-size: 10px;
+}
+
+.col-bar {
+  width: 100%;
+  max-width: 30px;
+  min-height: 4px;
+  border-radius: 1px 1px 0 0;
+  transition: height 0.4s ease;
+}
+
+.col-bar.thor {
+  background: linear-gradient(180deg, #00d4ff 0%, #2997ff 100%);
+  box-shadow: 0 0 12px rgba(41, 151, 255, 0.4);
+}
+
+.col-bar.thor-fast {
+  background: linear-gradient(180deg, #00e5a3 0%, #00b884 100%);
+  box-shadow: 0 0 10px rgba(0, 229, 163, 0.4);
+}
+
+.col-bar.m5u {
+  background: linear-gradient(180deg, #7c8594 0%, #525965 100%);
+}
+
+.col-bar.m4m {
+  background: #32323a;
+}
+
+.col-bar.m4m-slow {
+  background: linear-gradient(180deg, #ff453a 0%, #8a1f1a 100%);
+}
+
+.col-labels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.col-lbl {
+  font-size: 10px;
+  color: var(--ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.col-lbl.thor {
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+.col-sub {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10.5px;
+  color: var(--ink-3);
+}
+
+.col-ratio-tag {
+  font-family: "SF Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #000;
+  background: var(--green);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.col-panel.prefill-focus .col-ratio-tag {
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+}
+
+/* 速度量化页竖向柱形图 */
+.vchart-wrap {
+  height: 220px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  align-items: end;
+  padding: 26px 8px 0;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.vchart-col {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+
+.vchart-val {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--green);
+}
+
+.vchart-val.mac { color: var(--red); }
+
+.vchart-bar {
+  width: 100%;
+  max-width: 64px;
+  min-height: 6px;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, #00e5a3 0%, #00a878 100%);
+  box-shadow: 0 0 18px rgba(0, 229, 163, 0.3);
+}
+
+.vchart-bar.mac {
+  background: linear-gradient(180deg, #ff453a 0%, #7f1d1d 100%);
+  box-shadow: none;
+}
+
+.vchart-bar.m5u {
+  background: linear-gradient(180deg, #94a3b8 0%, #475569 100%);
+  box-shadow: none;
+}
+
+.vchart-labels {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  padding: 12px 8px 0;
+  text-align: center;
+}
+
+.vchart-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.vchart-meta {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 3px;
 }
 
 /* 非 LLM 卡片 3 项硬核指标 */
@@ -753,9 +852,11 @@ body {
 
 @media (max-width: 900px) {
   .cards-grid, .quant-grid, .hw-tiers { grid-template-columns: 1fr; }
+  .col-charts-3 { grid-template-columns: 1fr; }
   .q-card.wide { grid-column: span 1; }
-  .repo-row { grid-template-columns: 1fr; gap: 6px; }
-  .repo-sec { text-align: left; }
+  .vchart-wrap, .vchart-labels { gap: 8px; }
+  .vchart-val { font-size: 13px; }
+  .vchart-name { font-size: 11px; }
   .spec-board-head { display: none; }
   .spec-row { grid-template-columns: 1fr; gap: 8px; }
   .verdict { justify-self: start; }
