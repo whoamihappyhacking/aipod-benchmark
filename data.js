@@ -78,17 +78,17 @@ const MODELS = [
     featured: true,
     name: 'GLM 5.3 Flash TP4',
     hw: 'Thor×4',
-    ctx: '256K',
-    tag: '16 并发代码 371.7 TPS',
+    ctx: '1M',
+    tag: '16 并发 353.1 TPS · 3.85M KV 池',
     vram: '108G',
     disk: '≥182.6G/台',
-    quantLine: '32K 代码库读入：Thor×4 约 8.2s · M5 Ultra 约 21s · M4 Max 约 82s',
+    quantLine: '32K 代码库读入：Thor×4 仅 5.3s（1M 仍达 3,082 TPS）· M5 Ultra 约 21s',
     llm: {
-      prefill: { thor: '4,023', thorNum: 4023, m5u: '~1,500', m5uNum: 1500, m4m: '~400', m4mNum: 400, unit: 'TPS', ratio: '快 2.7x' },
-      ttft:    { thor: '180ms', thorNum: 180,  m5u: '~720ms', m5uNum: 720,  m4m: '~2.4s', m4mNum: 2400, unit: '', ratio: '快 4.0x' },
-      decode:  { thor: '109.8', thorNum: 109.8, m5u: '~52',   m5uNum: 52,   m4m: '~24',  m4mNum: 24, unit: 'TPS', ratio: '快 2.1x', sub: '16并发 371.7 TPS' }
+      prefill: { thor: '6,162', thorNum: 6162, m5u: '~1,500', m5uNum: 1500, m4m: '~400', m4mNum: 400, unit: 'TPS', ratio: '快 4.1x' },
+      ttft:    { thor: '150ms', thorNum: 150,  m5u: '~720ms', m5uNum: 720,  m4m: '~2.4s', m4mNum: 2400, unit: '', ratio: '快 4.8x' },
+      decode:  { thor: '115.8', thorNum: 115.8, m5u: '~52',   m5uNum: 52,   m4m: '~24',  m4mNum: 24, unit: 'TPS', ratio: '快 2.2x', sub: '16并发 353.1 TPS' }
     },
-    raw: '代码单流 109.8 TPS，正文单流 63.3 TPS，8/16 并发代码 256.1/371.7 TPS，16K/32K Prefill 4023/4000 TPS，TTFT 0.18s，图文多模态与工具调用，256K'
+    raw: '代码单流 115.8 TPS，正文单流 76.3 TPS，8/16 并发 254.1/353.1 TPS，16K/32K Prefill 6052/6162 TPS（1M 3082 TPS），TTFT 0.15-0.17s；支持图文多模态与工具调用，约 3.85M KV 缓存池，1M 上下文'
   },
   {
     id: 'deepseek-v41-flash',

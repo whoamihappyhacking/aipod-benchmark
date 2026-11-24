@@ -322,7 +322,7 @@
     },
     {
       k: '多并发吞吐（团队）',
-      thor: '8 并发 725 TPS · 16 并发代码 371.7 TPS（vLLM 批处理）',
+      thor: '8 并发 725 TPS · 16 并发 353.1 TPS（vLLM 批处理）',
       mac: 'MLX / llama.cpp 以单流为主，高并发排队掉速',
       bar: [100, 22],
       verdict: 'Thor 压倒性胜出',
